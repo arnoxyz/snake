@@ -59,13 +59,13 @@ body,
 }
 
 #score,
-#highScore {
+#high-score {
   font-size: 40px;
   font-weight: bolder;
   margin: 10px 0;
 }
 
-#highScore {
+#high-score {
   color: #d8ddca;
   display: none;
 }

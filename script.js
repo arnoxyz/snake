@@ -1,5 +1,7 @@
 // Get HTML elements
-const board = document.querySelector("#game-board");
+const boardElement = document.querySelector("#game-board");
+const scoreElement = document.querySelector("#score");
+const highScoreElement = document.querySelector("#high-score");
 
 // Define game variables
 const GRID_SIZE = 20;
@@ -7,10 +9,12 @@ let startPosition = { x: 10, y: 10 }; //every position is an object that has the
 let snake = [startPosition]; //snake is an array with the object that saves the (x,y) position of each snake cube.
 let food = { x: 15, y: 15 };
 let direction = "right";
+let score = 0;
+let highScore = 0;
 
 // Draw snake
 function draw() {
-  board.innerHTML = "";
+  boardElement.innerHTML = "";
   drawFood();
   drawSnake();
 }
@@ -26,7 +30,7 @@ function drawSnake() {
     snakeElement.style.gridColumn = snakeBodyPart.x;
     snakeElement.style.gridRow = snakeBodyPart.y;
     //append it to the board
-    board.appendChild(snakeElement);
+    boardElement.appendChild(snakeElement);
   });
 }
 
@@ -44,7 +48,7 @@ function drawFood() {
   foodElement.style.gridColumn = xPosition;
   foodElement.style.gridRow = yPosition;
   //append it to the board
-  board.appendChild(foodElement);
+  boardElement.appendChild(foodElement);
 }
 
 // Moving the snake
@@ -90,6 +94,14 @@ function gameControls(event) {
   collisionDetection();
 }
 
+function reset() {
+  highScoreElement.style.display = "block";
+  score = 0;
+  scoreElement.textContent = score.toString().padStart(3, "0");
+  snake = [startPosition]; //snake is an array with the object that saves the (x,y) position of each snake cube.
+  food = { x: 15, y: 15 };
+}
+
 function collisionDetection() {
   //snake head position
   console.log(snake[0].x);
@@ -98,10 +110,20 @@ function collisionDetection() {
   //collision with board
   if (snake[0].x >= GRID_SIZE || snake[0].x <= 0) {
     console.log("collision!!!! x-way");
+    if (score > highScore) {
+      highScore = score;
+      highScoreElement.textContent = highScore.toString().padStart(3, "0");
+    }
+    reset();
   }
 
   if (snake[0].y >= GRID_SIZE || snake[0].y <= 0) {
     console.log("collision!!!! y-way");
+    if (score > highScore) {
+      highScore = score;
+      highScoreElement.textContent = highScore.toString().padStart(3, "0");
+    }
+    reset();
   }
 
   if (snake[0].x === food.x && snake[0].y === food.y) {
@@ -112,6 +134,9 @@ function collisionDetection() {
 
     //add element to the snake
     snake.push({ x: 0, y: 0 });
+
+    score += 1;
+    scoreElement.textContent = score.toString().padStart(3, "0");
   }
 }
 
