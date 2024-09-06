@@ -5,12 +5,14 @@ const board = document.querySelector("#game-board");
 const GRID_SIZE = 20;
 let startPosition = { x: 10, y: 10 }; //every position is an object that has the (x,y) coordinates
 let snake = [startPosition]; //snake is an array with the object that saves the (x,y) position of each snake cube.
+let food = {x: 15, y: 15};
 let direction = "right";
 
 // Draw snake
 function draw() {
   board.innerHTML = "";
   drawSnake();
+  drawFood();
 }
 
 // Draw snake (creates new snake element and draws each body part of the snake at the position x,y position)
@@ -26,6 +28,23 @@ function drawSnake() {
     //append it to the board
     board.appendChild(snakeElement);
   });
+}
+
+// Draw food
+function drawFood() {
+  //TODO: generate random positon in the grid
+  let xPosition = food.x;
+  let yPosition = food.y;
+
+  //create new element
+  const element = document.createElement("div");
+  element.className = "food";
+  const foodElement = element;
+  //set position of new element
+  foodElement.style.gridColumn = xPosition;
+  foodElement.style.gridRow = yPosition;
+  //append it to the board
+  board.appendChild(foodElement);
 }
 
 // Moving the snake
@@ -84,7 +103,14 @@ function collisionDetection() {
   if (snake[0].y >= GRID_SIZE || snake[0].y <= 0) {
     console.log("collision!!!! y-way");
   }
+
+
+  if (snake[0].x === food.x && snake[0].y === food.y){
+    console.log("snake on food");
+  }
+
 }
 
 // Testing drawing and moving the snake
 document.addEventListener("keydown", gameControls);
+drawFood();
