@@ -88,18 +88,6 @@ function gameControls(event) {
       direction = "left";
       break;
   }
-
-  move();
-  draw();
-  collisionDetection();
-}
-
-function reset() {
-  highScoreElement.style.display = "block";
-  score = 0;
-  scoreElement.textContent = score.toString().padStart(3, "0");
-  snake = [startPosition]; //snake is an array with the object that saves the (x,y) position of each snake cube.
-  food = { x: 15, y: 15 };
 }
 
 function collisionDetection() {
@@ -143,3 +131,22 @@ function collisionDetection() {
 // Testing drawing and moving the snake
 document.addEventListener("keydown", gameControls);
 drawFood();
+
+function gameLoop() {
+  const interval = setInterval(() => {
+    move();
+    collisionDetection();
+    draw();
+  }, 250);
+}
+
+function reset() {
+  highScoreElement.style.display = "block";
+  score = 0;
+  scoreElement.textContent = score.toString().padStart(3, "0");
+  snake = [startPosition]; //snake is an array with the object that saves the (x,y) position of each snake cube.
+  food = { x: 15, y: 15 };
+  clearInterval(interval);
+}
+
+gameLoop();
