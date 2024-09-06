@@ -68,6 +68,22 @@ function gameControls(event) {
 
   move();
   draw();
+  collisionDetection();
+}
+
+function collisionDetection() {
+  //snake head position
+  console.log(snake[0].x);
+  console.log(snake[0].y);
+
+  //collision with board
+  if (snake[0].x >= GRID_SIZE || snake[0].x <= 0) {
+    console.log("collision!!!! x-way");
+  }
+
+  if (snake[0].y >= GRID_SIZE || snake[0].y <= 0) {
+    console.log("collision!!!! y-way");
+  }
 }
 
 // Testing drawing and moving the snake
